@@ -2,7 +2,7 @@
 
 const PHONE = "9562276922";
 const PHONE_DISPLAY = "(956) 227-6922";
-const AGENT = "Yoli San Miguel";
+const AGENT = "Yolanda San Miguel";
 
 const lotDetails = [
   { label: "Price", value: "$105,000 per lot" },
