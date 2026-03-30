@@ -6,6 +6,10 @@ const PHONE = "9562276922";
 const PHONE_DISPLAY = "(956) 227-6922";
 const AGENT = "Yolanda San Miguel";
 
+// ── UPDATE THIS to mark lots as sold ─────────────────
+const SOLD_LOTS: number[] = [];
+// Example: const SOLD_LOTS = [1, 5, 12, 25];
+
 const lotDetails = [
   { label: "Price",       value: "$105,000 per lot" },
   { label: "Lot size",    value: "Half acre (0.5 ac)" },
@@ -40,6 +44,28 @@ const locationRows = [
 ];
 
 // ── Scroll reveal hook ────────────────────────────────
+function LotCell({ n, sold }: { n: number; sold: boolean }) {
+  return (
+    <div style={{
+      position: "relative",
+      aspectRatio: "1",
+      border: sold ? "1px solid rgba(255,255,255,0.08)" : "2px solid var(--gold)",
+      background: sold ? "rgba(255,255,255,0.04)" : "rgba(212,175,55,0.08)",
+      borderRadius: 4,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: 2,
+    }}>
+      <span style={{ fontSize: 13, fontWeight: 700, color: sold ? "rgba(255,255,255,0.2)" : "var(--gold)" }}>{n}</span>
+      {sold && (
+        <span style={{ fontSize: 7, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)" }}>Sold</span>
+      )}
+    </div>
+  );
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
@@ -98,7 +124,7 @@ export default function Home() {
         </span>
 
         <ul className="vsm-nav-links">
-          {[["#lots","Lots"],["#details","Details"],["#location","Location"],["#contact","Contact"]].map(([href, label]) => (
+          {[["#lots","Lots"],["#lot-map","Lot Map"],["#location","Location"],["#contact","Contact"]].map(([href, label]) => (
             <li key={href}><a href={href}>{label}</a></li>
           ))}
         </ul>
@@ -443,6 +469,93 @@ export default function Home() {
             </div>
 
           </div>{/* /bento-grid */}
+        </div>
+      </section>
+
+      {/* ── LOT MAP ─────────────────────────────────── */}
+      <section id="lot-map" style={{ padding: "120px 48px", background: "var(--ink)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+
+          <div className="reveal" style={{ marginBottom: 16 }}>
+            <span className="eyebrow">Lot availability</span>
+          </div>
+          <h2 className="reveal reveal-delay-1" style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(34px, 5vw, 64px)", fontWeight: 400, lineHeight: 0.95, letterSpacing: "0.06em", color: "var(--cream)", marginBottom: 16, textWrap: "balance" }}>
+            Choose your <em style={{ color: "var(--gold)", fontStyle: "normal" }}>lot</em>
+          </h2>
+          <p className="reveal reveal-delay-2" style={{ fontSize: 17, color: "var(--text-muted)", maxWidth: 480, lineHeight: 1.65, fontWeight: 300, marginBottom: 56 }}>
+            Gold = available · Gray = sold. Call Yolanda to reserve yours today.
+          </p>
+
+          <div className="reveal reveal-delay-3" style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gridTemplateRows: "repeat(8, 1fr)", gap: 6, width: "100%", maxWidth: 560 }}>
+              {/* Top row: 12 11 10 9 + 2 spacers */}
+              {[12,11,10,9].map(n => <LotCell key={n} n={n} sold={SOLD_LOTS.includes(n)} />)}
+              <div /><div />
+              {/* Row 2: 13 | 25 26 | _ 8 */}
+              <LotCell n={13} sold={SOLD_LOTS.includes(13)} />
+              <LotCell n={25} sold={SOLD_LOTS.includes(25)} />
+              <LotCell n={26} sold={SOLD_LOTS.includes(26)} />
+              <div /><div />
+              <LotCell n={8} sold={SOLD_LOTS.includes(8)} />
+              {/* Row 3: 14 | 24 27 | _ 7 */}
+              <LotCell n={14} sold={SOLD_LOTS.includes(14)} />
+              <LotCell n={24} sold={SOLD_LOTS.includes(24)} />
+              <LotCell n={27} sold={SOLD_LOTS.includes(27)} />
+              <div /><div />
+              <LotCell n={7} sold={SOLD_LOTS.includes(7)} />
+              {/* Row 4: 15 | 23 28 | _ 6 */}
+              <LotCell n={15} sold={SOLD_LOTS.includes(15)} />
+              <LotCell n={23} sold={SOLD_LOTS.includes(23)} />
+              <LotCell n={28} sold={SOLD_LOTS.includes(28)} />
+              <div /><div />
+              <LotCell n={6} sold={SOLD_LOTS.includes(6)} />
+              {/* Row 5: 16 | 22 29 | _ 5 */}
+              <LotCell n={16} sold={SOLD_LOTS.includes(16)} />
+              <LotCell n={22} sold={SOLD_LOTS.includes(22)} />
+              <LotCell n={29} sold={SOLD_LOTS.includes(29)} />
+              <div /><div />
+              <LotCell n={5} sold={SOLD_LOTS.includes(5)} />
+              {/* Row 6: 17 | 21 30 | _ 4 */}
+              <LotCell n={17} sold={SOLD_LOTS.includes(17)} />
+              <LotCell n={21} sold={SOLD_LOTS.includes(21)} />
+              <LotCell n={30} sold={SOLD_LOTS.includes(30)} />
+              <div /><div />
+              <LotCell n={4} sold={SOLD_LOTS.includes(4)} />
+              {/* Row 7: 18 _ entrance _ _ 3 */}
+              <LotCell n={18} sold={SOLD_LOTS.includes(18)} />
+              <div />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 8, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--gold)", opacity: 0.6 }}>Entrance</span>
+              </div>
+              <div /><div />
+              <LotCell n={3} sold={SOLD_LOTS.includes(3)} />
+              {/* Bottom row: 19 20 _ _ 1 2 */}
+              <LotCell n={19} sold={SOLD_LOTS.includes(19)} />
+              <LotCell n={20} sold={SOLD_LOTS.includes(20)} />
+              <div /><div />
+              <LotCell n={1} sold={SOLD_LOTS.includes(1)} />
+              <LotCell n={2} sold={SOLD_LOTS.includes(2)} />
+            </div>
+          </div>
+
+          <div className="reveal" style={{ marginTop: 40, display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 16, height: 16, border: "2px solid var(--gold)", background: "rgba(212,175,55,0.1)", borderRadius: 3 }} />
+              <span style={{ fontSize: 13, color: "var(--text-muted)" }}>Available</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 16, height: 16, background: "rgba(255,255,255,0.06)", borderRadius: 3 }} />
+              <span style={{ fontSize: 13, color: "var(--text-muted)" }}>Sold</span>
+            </div>
+          </div>
+
+          <div className="reveal" style={{ marginTop: 40, textAlign: "center" }}>
+            <a href={`tel:${PHONE}`} className="btn-pill">
+              Reserve a lot
+              <span className="btn-pill-icon">↗</span>
+            </a>
+          </div>
+
         </div>
       </section>
 
