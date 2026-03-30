@@ -501,7 +501,7 @@ export default function Home() {
               ))}
               <div style={{ marginTop: 36 }}>
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=803+Uriel+Dr+Weslaco+TX+78599"
+                  href="https://www.google.com/maps/dir/?api=1&destination=26.2071327,-97.9975637"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-pill"
@@ -516,7 +516,7 @@ export default function Home() {
               <div className="bezel-outer">
                 <div className="bezel-inner" style={{ overflow: "hidden" }}>
                   <iframe
-                    src="https://maps.google.com/maps?q=803+Uriel+Dr+Weslaco+TX+78599&output=embed&z=15"
+                    src="https://maps.google.com/maps?q=26.2071327,-97.9975637&output=embed&z=16"
                     width="100%"
                     height="380"
                     style={{ border: "none", display: "block", filter: "grayscale(40%) invert(88%) hue-rotate(180deg)" }}
