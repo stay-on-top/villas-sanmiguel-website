@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Cinzel, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-cinzel",
   display: "swap",
   weight: ["400", "500", "600", "700", "800", "900"],
 });
@@ -48,7 +48,7 @@ const schema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${jakarta.variable}`}>
+    <html lang="en" className={`${cinzel.variable} ${jakarta.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </head>
