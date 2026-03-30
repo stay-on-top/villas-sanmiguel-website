@@ -152,7 +152,7 @@ export default function Home() {
         {/* dark overlay so text stays readable */}
         <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 0, pointerEvents: "none" }} />
 
-        <div style={{ position: "relative", zIndex: 1, maxWidth: 900, width: "100%", margin: "0 auto" }}>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 900, width: "100%", margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div className="reveal" style={{ marginBottom: 24 }}>
             <span className="eyebrow">Weslaco, TX · Rio Grande Valley</span>
           </div>
@@ -161,17 +161,17 @@ export default function Home() {
             className="reveal reveal-delay-1"
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(54px, 9vw, 110px)",
-              fontWeight: 800,
-              lineHeight: 0.92,
-              letterSpacing: "-0.03em",
+              fontWeight: 400,
+              lineHeight: 1.05,
+              letterSpacing: "0.18em",
               color: "var(--cream)",
               marginBottom: 32,
-              textWrap: "balance",
+              textAlign: "center",
+              textTransform: "uppercase",
             }}
           >
-            Villas{" "}
-            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>San Miguel</em>
+            <span style={{ display: "block", fontSize: "clamp(32px, 5vw, 64px)" }}>Villas</span>
+            <span style={{ display: "block", fontSize: "clamp(52px, 9vw, 110px)", color: "var(--gold)" }}>San Miguel</span>
           </h1>
 
           <p
