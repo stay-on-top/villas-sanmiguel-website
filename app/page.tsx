@@ -7,14 +7,14 @@ const PHONE_DISPLAY = "(956) 227-6922";
 const AGENT = "Yolanda San Miguel";
 
 // ── UPDATE THIS to mark lots as sold ─────────────────
-const SOLD_LOTS: number[] = [];
-// Example: const SOLD_LOTS = [1, 5, 12, 25];
+const SOLD_LOTS: number[] = [1, 4, 6, 7, 10, 11, 17, 20, 21, 22, 23, 24, 27, 28, 29];
+// Available: 2, 3, 5, 8, 9, 12, 13, 14, 15, 16, 18, 19, 25, 26, 30
 
 const lotDetails = [
   { label: "Price",       value: "$105,000 per lot" },
   { label: "Lot size",    value: "Half acre (0.5 ac)" },
   { label: "Type",        value: "Residential lot" },
-  { label: "Available",   value: "8 lots remaining" },
+  { label: "Available",   value: "15 lots remaining" },
   { label: "Water",       value: "North Alamo WSC" },
   { label: "Electric",    value: "Magic Valley Electric" },
   { label: "Septic",      value: "Covered by seller" },
@@ -31,7 +31,7 @@ const highlights = [
   "HOA only $500/year — Villas San Miguel Owners Assoc.",
   "Sidewalks throughout the entire community",
   "Model home under construction — valued at ~$400,000",
-  "Only 8 lots remaining",
+  "Only 15 lots remaining",
 ];
 
 const locationRows = [
@@ -229,7 +229,7 @@ export default function Home() {
             }}
           >
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--gold)", display: "inline-block" }} />
-            <span style={{ fontSize: 12, fontWeight: 700, color: "var(--gold)", letterSpacing: "0.1em", textTransform: "uppercase" }}>8 lots remaining · $105,000 each</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "var(--gold)", letterSpacing: "0.1em", textTransform: "uppercase" }}>15 lots remaining · $105,000 each</span>
           </div>
 
           <div className="reveal reveal-delay-4" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -253,7 +253,7 @@ export default function Home() {
       {/* ── STATS BAR ───────────────────────────────── */}
       <div className="stat-bar">
         {[
-          ["8",        "Lots available"],
+          ["15",       "Lots available"],
           ["½ acre",   "Per lot"],
           ["$105K",    "Starting price"],
           ["Gated",    "Community"],
@@ -363,7 +363,7 @@ export default function Home() {
               textWrap: "pretty",
             }}
           >
-            Spacious half-acre lots in a brand-new gated Weslaco development. Only 8 remain.
+            Spacious half-acre lots in a brand-new gated Weslaco development. 15 lots still available.
           </p>
 
           {/* BENTO GRID */}
@@ -666,7 +666,7 @@ export default function Home() {
             }}
           >
             Only{" "}
-            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>8 lots left</em>
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>15 lots left</em>
           </h2>
           <p
             className="reveal reveal-delay-2"
