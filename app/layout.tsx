@@ -17,6 +17,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/favicon.svg" },
   title: "Villas San Miguel — Weslaco, TX | Half-Acre Residential Lots",
   description: "8 half-acre residential lots in a brand-new gated development in Weslaco, TX. Starting at $105,000. Seller covers septic. Water & electric available. Contact Yolanda San Miguel.",
   keywords: "lots for sale Weslaco TX, residential lots RGV, land for sale Weslaco, half acre lots Rio Grande Valley, Villas San Miguel Weslaco, gated community Weslaco",

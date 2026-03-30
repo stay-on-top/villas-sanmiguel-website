@@ -16,7 +16,7 @@ const lotDetails = [
   { label: "Septic",      value: "Covered by seller" },
   { label: "HOA",         value: "$500 / year" },
   { label: "Community",   value: "Gated · Sidewalks" },
-  { label: "Address",     value: "711 Uriel Dr W, Weslaco TX 78596" },
+  { label: "Address",     value: "711 Uriel Dr, Weslaco TX 78596" },
 ];
 
 const highlights = [
@@ -31,8 +31,8 @@ const highlights = [
 ];
 
 const locationRows = [
-  ["Address",  "711 Uriel Dr W, Weslaco, TX 78596"],
-  ["Area",     "Gated development, mile 5.5 Weslaco"],
+  ["Address",  "711 Uriel Dr, Weslaco, TX 78596"],
+  ["Area",     "Gated development, mile 5 1/2 Weslaco"],
   ["Water",    "North Alamo WSC"],
   ["Electric", "Magic Valley Electric"],
   ["Nearby",   "Schools, shopping, Expressway 83"],
@@ -284,14 +284,15 @@ export default function Home() {
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 10 }}>Fox Real Estate Pros · Greater McAllen AOR</p>
                   <p style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--cream)", marginBottom: 6 }}>{AGENT}</p>
                   <p style={{ fontSize: 14, color: "var(--text-muted)" }}>{PHONE_DISPLAY} · MLS# 486729</p>
+                  <p style={{ fontSize: 14, color: "var(--text-muted)", marginTop: 4 }}>yoli@foxrealestatepros.com</p>
                 </div>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                   <a href={`tel:${PHONE}`} className="btn-pill">
                     Call Yolanda
                     <span className="btn-pill-icon">↗</span>
                   </a>
-                  <a href={`sms:${PHONE}`} className="btn-ghost">
-                    Send a text
+                  <a href="mailto:yoli@foxrealestatepros.com" className="btn-ghost">
+                    Send an email
                   </a>
                 </div>
               </div>
@@ -585,14 +586,15 @@ export default function Home() {
                   {AGENT}
                 </p>
                 <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 4 }}>Fox Real Estate Pros · Greater McAllen AOR</p>
-                <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 36 }}>MLS# 486729</p>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 4 }}>MLS# 486729</p>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 36 }}>yoli@foxrealestatepros.com</p>
                 <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
                   <a href={`tel:${PHONE}`} className="btn-pill">
                     Call now
                     <span className="btn-pill-icon">↗</span>
                   </a>
-                  <a href={`sms:${PHONE}`} className="btn-ghost">
-                    Send a text
+                  <a href="mailto:yoli@foxrealestatepros.com" className="btn-ghost">
+                    Send an email
                   </a>
                 </div>
               </div>
