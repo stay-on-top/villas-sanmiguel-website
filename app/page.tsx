@@ -16,7 +16,7 @@ const lotDetails = [
   { label: "Septic",      value: "Covered by seller" },
   { label: "HOA",         value: "$500 / year" },
   { label: "Community",   value: "Gated · Sidewalks" },
-  { label: "Address",     value: "803 Uriel Dr, Weslaco TX" },
+  { label: "Address",     value: "711 Uriel Dr W, Weslaco TX 78596" },
 ];
 
 const highlights = [
@@ -31,7 +31,7 @@ const highlights = [
 ];
 
 const locationRows = [
-  ["Address",  "803 Uriel Dr, Weslaco, TX 78599"],
+  ["Address",  "711 Uriel Dr W, Weslaco, TX 78596"],
   ["Area",     "Gated development, mile 5.5 Weslaco"],
   ["Water",    "North Alamo WSC"],
   ["Electric", "Magic Valley Electric"],
