@@ -240,12 +240,12 @@ export default function Home() {
         ))}
       </div>
 
-      {/* ── VIDEO SECTION ───────────────────────────── */}
+      {/* ── AGENT CTA ───────────────────────────────── */}
       <section style={{ padding: "120px 48px", background: "var(--espresso)" }}>
         <div style={{ maxWidth: 1160, margin: "0 auto" }}>
 
           <div className="reveal" style={{ marginBottom: 16 }}>
-            <span className="eyebrow">Watch the video</span>
+            <span className="eyebrow">Your agent</span>
           </div>
           <h2
             className="reveal reveal-delay-1"
@@ -256,7 +256,7 @@ export default function Home() {
               lineHeight: 0.95,
               letterSpacing: "-0.03em",
               color: "var(--cream)",
-              marginBottom: 12,
+              marginBottom: 16,
               textWrap: "balance",
             }}
           >
@@ -266,27 +266,33 @@ export default function Home() {
           <p
             className="reveal reveal-delay-2"
             style={{
-              fontSize: 15,
+              fontSize: 17,
               color: "var(--text-muted)",
-              fontWeight: 400,
-              marginBottom: 48,
-              letterSpacing: "0.01em",
+              fontWeight: 300,
+              maxWidth: 520,
+              lineHeight: 1.65,
+              marginBottom: 56,
             }}
           >
-            Your agent · Fox Real Estate Pros · {PHONE_DISPLAY}
+            With deep roots in the Rio Grande Valley, Yolanda knows this market inside and out. Call or text her today — she&apos;ll answer every question and help you secure your lot.
           </p>
 
           <div className="reveal reveal-delay-3">
-            <div className="bezel-outer">
-              <div className="bezel-inner">
-                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 12 }}>
-                  <iframe
-                    src="https://www.youtube.com/embed/PLACEHOLDER_ID?autoplay=0&rel=0"
-                    title="Yolanda San Miguel - Villas San Miguel"
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-                    allowFullScreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  />
+            <div className="bezel-gold-outer">
+              <div className="bezel-gold-inner" style={{ padding: "48px 44px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 32 }}>
+                <div>
+                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 10 }}>Fox Real Estate Pros · Greater McAllen AOR</p>
+                  <p style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700, letterSpacing: "-0.02em", color: "var(--cream)", marginBottom: 6 }}>{AGENT}</p>
+                  <p style={{ fontSize: 14, color: "var(--text-muted)" }}>{PHONE_DISPLAY} · MLS# 486729</p>
+                </div>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <a href={`tel:${PHONE}`} className="btn-pill">
+                    Call Yolanda
+                    <span className="btn-pill-icon">↗</span>
+                  </a>
+                  <a href={`sms:${PHONE}`} className="btn-ghost">
+                    Send a text
+                  </a>
                 </div>
               </div>
             </div>
