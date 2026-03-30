@@ -630,7 +630,7 @@ export default function Home() {
               <div className="bezel-outer">
                 <div className="bezel-inner" style={{ overflow: "hidden" }}>
                   <iframe
-                    src="https://maps.google.com/maps?q=26.2071327,-97.9975637&output=embed&z=16"
+                    src="https://maps.google.com/maps?q=26.2071327,-97.9975637&output=embed&z=17&t=k"
                     width="100%"
                     height="380"
                     style={{ border: "none", display: "block", filter: "grayscale(40%) invert(88%) hue-rotate(180deg)" }}
