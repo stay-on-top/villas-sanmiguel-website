@@ -1,174 +1,613 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 const PHONE = "9562276922";
 const PHONE_DISPLAY = "(956) 227-6922";
 const AGENT = "Yolanda San Miguel";
 
 const lotDetails = [
-  { label: "Price", value: "$105,000 per lot" },
-  { label: "Lot Size", value: "0.5 Acres (Half Acre)" },
-  { label: "Type", value: "Residential Lot" },
-  { label: "Lots Available", value: "8 Remaining" },
-  { label: "Water", value: "North Alamo WSC" },
-  { label: "Electric", value: "Magic Valley Electric" },
-  { label: "Septic", value: "Covered by seller" },
-  { label: "HOA", value: "$500/year" },
-  { label: "Community", value: "Gated · Sidewalks" },
-  { label: "Location", value: "803 Uriel Dr, Weslaco TX 78599" },
+  { label: "Price",       value: "$105,000 per lot" },
+  { label: "Lot size",    value: "Half acre (0.5 ac)" },
+  { label: "Type",        value: "Residential lot" },
+  { label: "Available",   value: "8 lots remaining" },
+  { label: "Water",       value: "North Alamo WSC" },
+  { label: "Electric",    value: "Magic Valley Electric" },
+  { label: "Septic",      value: "Covered by seller" },
+  { label: "HOA",         value: "$500 / year" },
+  { label: "Community",   value: "Gated · Sidewalks" },
+  { label: "Address",     value: "803 Uriel Dr, Weslaco TX" },
 ];
 
 const highlights = [
   "Brand-new gated development in Weslaco, TX",
-  "Seller covers cost & installation of septic tank",
-  "North Alamo Water & Magic Valley Electric available",
-  "Half-acre lots — plenty of space for your dream home",
-  "HOA only $500/year — Villas San Miguel Owner Association",
-  "Sidewalks throughout the community",
-  "Model home being built on-site — valued at ~$400,000",
-  "Only 8 lots remaining — act fast",
+  "Seller covers full cost of septic tank installation",
+  "North Alamo Water & Magic Valley Electric on site",
+  "Half-acre lots — room to build exactly what you want",
+  "HOA only $500/year — Villas San Miguel Owners Assoc.",
+  "Sidewalks throughout the entire community",
+  "Model home under construction — valued at ~$400,000",
+  "Only 8 lots remaining",
 ];
 
+const locationRows = [
+  ["Address",  "803 Uriel Dr, Weslaco, TX 78599"],
+  ["Area",     "Gated development, mile 5.5 Weslaco"],
+  ["Water",    "North Alamo WSC"],
+  ["Electric", "Magic Valley Electric"],
+  ["Nearby",   "Schools, shopping, Expressway 83"],
+  ["Agent",    `${AGENT} · ${PHONE_DISPLAY}`],
+];
+
+// ── Scroll reveal hook ────────────────────────────────
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add("visible");
+          io.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
 export default function Home() {
+  useReveal();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
-      {/* NAV */}
-      <nav className="nav-wrap" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 48px", background: "rgba(10,10,10,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 2 }}>Villas San Miguel</p>
-          <p style={{ fontSize: 11, color: "#999", letterSpacing: "1px" }}>Weslaco, TX · Gated Community</p>
+      {/* ── MOBILE OVERLAY ──────────────────────────── */}
+      <div className={`vsm-mobile-menu${menuOpen ? " open" : ""}`} aria-hidden={!menuOpen}>
+        <a href="#lots"     onClick={closeMenu}>Available Lots</a>
+        <a href="#details"  onClick={closeMenu}>Details</a>
+        <a href="#location" onClick={closeMenu}>Location</a>
+        <a href="#contact"  onClick={closeMenu}>Contact</a>
+        <div className="vsm-mobile-cta-wrap">
+          <a
+            href={`tel:${PHONE}`}
+            className="btn-pill"
+            onClick={closeMenu}
+            style={{ fontSize: 13 }}
+          >
+            Call Yolanda
+            <span className="btn-pill-icon">↗</span>
+          </a>
         </div>
-        <ul className="nav-links" style={{ display: "flex", gap: 28, listStyle: "none", margin: 0, padding: 0 }}>
-          {[["#lots","Available Lots"],["#details","Details"],["#location","Location"],["#contact","Contact"]].map(([href, label]) => (
-            <li key={href}><a href={href} style={{ color: "#cccccc", textDecoration: "none", fontSize: 12, fontWeight: 500, letterSpacing: "1.5px", textTransform: "uppercase" }}>{label}</a></li>
+      </div>
+
+      {/* ── NAV ─────────────────────────────────────── */}
+      <nav className="vsm-nav" aria-label="Site navigation">
+        <span style={{
+          fontFamily: "var(--font-serif)",
+          fontSize: 13,
+          fontWeight: 700,
+          color: "var(--gold)",
+          letterSpacing: "0.04em",
+          marginRight: 12,
+        }}>
+          Villas San Miguel
+        </span>
+
+        <ul className="vsm-nav-links">
+          {[["#lots","Lots"],["#details","Details"],["#location","Location"],["#contact","Contact"]].map(([href, label]) => (
+            <li key={href}><a href={href}>{label}</a></li>
           ))}
         </ul>
-        <a href={`tel:${PHONE}`} style={{ background: "#D4AF37", color: "#0a0a0a", textDecoration: "none", padding: "12px 28px", fontSize: 12, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase" }}>Call Now</a>
+
+        <a href={`tel:${PHONE}`} className="vsm-nav-cta">
+          Call Yolanda
+          <span style={{ width: 28, height: 28, borderRadius: "9999px", background: "rgba(0,0,0,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>↗</span>
+        </a>
+
+        <button
+          className={`vsm-hamburger${menuOpen ? " open" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+        >
+          <span /><span /><span />
+        </button>
       </nav>
 
-      {/* HERO */}
-      <section id="home" style={{ position: "relative", height: "100vh", minHeight: 640, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "#0a0a0a" }}>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #0a0a0a 0%, #1a1400 50%, #0a0a0a 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(ellipse at 60% 50%, rgba(212,175,55,0.1) 0%, transparent 70%)" }} />
-        <div style={{ position: "relative", textAlign: "center", maxWidth: 860, padding: "0 24px" }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 20 }}>Weslaco, TX · Gated Community · Rio Grande Valley</p>
-          <h1 style={{ fontSize: "clamp(42px,7vw,86px)", fontWeight: 900, lineHeight: 0.95, letterSpacing: "-2px", textTransform: "uppercase", marginBottom: 24 }}>Villas <span style={{ color: "#D4AF37" }}>San Miguel</span></h1>
-          <p style={{ fontSize: "clamp(15px,2vw,18px)", color: "#cccccc", maxWidth: 560, margin: "0 auto 16px", fontWeight: 300 }}>Brand-new gated development in Weslaco, TX. Half-acre residential lots with water, electric, and septic covered by seller. Build the home you've always envisioned.</p>
-          <div style={{ display: "inline-block", background: "rgba(212,175,55,0.1)", border: "1px solid rgba(212,175,55,0.3)", padding: "10px 24px", marginBottom: 40 }}>
-            <span style={{ fontSize: 14, fontWeight: 700, color: "#D4AF37", letterSpacing: "1px" }}>8 Lots Remaining · $105,000 Each</span>
+      {/* ── HERO ────────────────────────────────────── */}
+      <section
+        id="home"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          background: "var(--espresso)",
+          padding: "120px 24px 80px",
+        }}
+      >
+        {/* fullscreen video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 0,
+          }}
+        >
+          <source src="/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* dark overlay so text stays readable */}
+        <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 0, pointerEvents: "none" }} />
+
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 900, width: "100%", margin: "0 auto" }}>
+          <div className="reveal" style={{ marginBottom: 24 }}>
+            <span className="eyebrow">Weslaco, TX · Rio Grande Valley</span>
           </div>
-          <div className="hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`tel:${PHONE}`} style={{ background: "#D4AF37", color: "#0a0a0a", textDecoration: "none", padding: "18px 44px", fontSize: 14, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Call {AGENT}</a>
-            <a href="#lots" style={{ background: "transparent", color: "white", textDecoration: "none", padding: "18px 44px", fontSize: 14, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", border: "1.5px solid rgba(255,255,255,0.3)" }}>View Details</a>
+
+          <h1
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(54px, 9vw, 110px)",
+              fontWeight: 800,
+              lineHeight: 0.92,
+              letterSpacing: "-0.03em",
+              color: "var(--cream)",
+              marginBottom: 32,
+              textWrap: "balance",
+            }}
+          >
+            Villas{" "}
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>San Miguel</em>
+          </h1>
+
+          <p
+            className="reveal reveal-delay-2"
+            style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              color: "var(--text-light)",
+              maxWidth: 540,
+              lineHeight: 1.65,
+              fontWeight: 300,
+              marginBottom: 20,
+              textWrap: "pretty",
+            }}
+          >
+            Brand-new gated development in Weslaco, TX. Half-acre residential lots — water, electric, and septic covered by seller. Build the home you&apos;ve envisioned.
+          </p>
+
+          <div
+            className="reveal reveal-delay-3"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(212,175,55,0.1)",
+              border: "1px solid rgba(212,175,55,0.28)",
+              borderRadius: 9999,
+              padding: "8px 18px",
+              marginBottom: 44,
+            }}
+          >
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--gold)", display: "inline-block" }} />
+            <span style={{ fontSize: 12, fontWeight: 700, color: "var(--gold)", letterSpacing: "0.1em", textTransform: "uppercase" }}>8 lots remaining · $105,000 each</span>
           </div>
+
+          <div className="reveal reveal-delay-4" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <a href={`tel:${PHONE}`} className="btn-pill">
+              Call {AGENT}
+              <span className="btn-pill-icon">↗</span>
+            </a>
+            <a href="#lots" className="btn-ghost">
+              View Details
+            </a>
+          </div>
+        </div>
+
+        {/* scroll hint */}
+        <div style={{ position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.35, zIndex: 1 }}>
+          <div style={{ width: 1, height: 40, background: "var(--gold)" }} />
+          <span style={{ fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--gold)" }}>Scroll</span>
         </div>
       </section>
 
-      {/* STATS BAR */}
-      <div className="stats-row" style={{ background: "#D4AF37", padding: "20px 48px", display: "flex", justifyContent: "center", gap: 64, flexWrap: "wrap" }}>
-        {[["8","Lots Available"],["½ Acre","Per Lot"],["$105K","Per Lot"],["Gated","Community"],["$500/yr","HOA"]].map(([n, l]) => (
+      {/* ── STATS BAR ───────────────────────────────── */}
+      <div className="stat-bar">
+        {[
+          ["8",        "Lots available"],
+          ["½ acre",   "Per lot"],
+          ["$105K",    "Starting price"],
+          ["Gated",    "Community"],
+          ["$500/yr",  "HOA"],
+        ].map(([n, l]) => (
           <div key={l} style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.5px", color: "#0a0a0a" }}>{n}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(0,0,0,0.6)", marginTop: 2 }}>{l}</div>
+            <div style={{ fontFamily: "var(--font-serif)", fontSize: 22, fontWeight: 800, color: "var(--espresso)", letterSpacing: "-0.03em" }}>{n}</div>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(13,11,8,0.55)", marginTop: 3 }}>{l}</div>
           </div>
         ))}
       </div>
 
-      {/* LOTS / DETAILS */}
-      <section id="lots" className="section-pad" style={{ padding: "100px 48px", background: "#141414" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 16 }}>Available Lots</p>
-          <h2 style={{ fontSize: "clamp(28px,4vw,52px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-1.5px", textTransform: "uppercase", marginBottom: 16 }}>Build Your <span style={{ color: "#D4AF37" }}>Dream Home</span></h2>
-          <p style={{ fontSize: 17, color: "#999", maxWidth: 600, marginBottom: 56, fontWeight: 300 }}>Spacious half-acre lots in a brand-new gated Weslaco development. Seller covers septic installation. Water and electric already available. Only 8 lots remain.</p>
+      {/* ── VIDEO SECTION ───────────────────────────── */}
+      <section style={{ padding: "120px 48px", background: "var(--espresso)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
 
-          <div id="details" className="two-col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 48 }}>
-            {/* Lot details */}
-            <div style={{ background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.07)", padding: "40px 36px" }}>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 28 }}>Lot Details</p>
-              {lotDetails.map(({ label, value }) => (
-                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.06)", gap: 16 }}>
-                  <span style={{ fontSize: 13, color: "#999", flexShrink: 0 }}>{label}</span>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: "white", textAlign: "right" }}>{value}</span>
-                </div>
-              ))}
-              <a href={`tel:${PHONE}`} style={{ display: "block", textAlign: "center", marginTop: 32, background: "#D4AF37", color: "#0a0a0a", textDecoration: "none", padding: "16px", fontSize: 13, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Inquire Now</a>
-            </div>
+          <div className="reveal" style={{ marginBottom: 16 }}>
+            <span className="eyebrow">Watch the video</span>
+          </div>
+          <h2
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(34px, 5vw, 64px)",
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--cream)",
+              marginBottom: 12,
+              textWrap: "balance",
+            }}
+          >
+            Meet{" "}
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>Yolanda San Miguel</em>
+          </h2>
+          <p
+            className="reveal reveal-delay-2"
+            style={{
+              fontSize: 15,
+              color: "var(--text-muted)",
+              fontWeight: 400,
+              marginBottom: 48,
+              letterSpacing: "0.01em",
+            }}
+          >
+            Your agent · Fox Real Estate Pros · {PHONE_DISPLAY}
+          </p>
 
-            {/* Highlights */}
-            <div style={{ background: "#0e0e00", border: "1px solid rgba(212,175,55,0.2)", padding: "40px 36px" }}>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 28 }}>Why Villas San Miguel</p>
-              {highlights.map(h => (
-                <div key={h} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                  <div style={{ width: 6, height: 6, background: "#D4AF37", flexShrink: 0, marginTop: 6 }} />
-                  <span style={{ fontSize: 14, color: "#cccccc", lineHeight: 1.6 }}>{h}</span>
+          <div className="reveal reveal-delay-3">
+            <div className="bezel-outer">
+              <div className="bezel-inner">
+                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 12 }}>
+                  <iframe
+                    src="https://www.youtube.com/embed/PLACEHOLDER_ID?autoplay=0&rel=0"
+                    title="Yolanda San Miguel - Villas San Miguel"
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    allowFullScreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  />
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
-          {/* Model home callout */}
-          <div style={{ background: "#1a1a1a", border: "1px solid rgba(212,175,55,0.25)", padding: "36px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 10 }}>See the Potential</p>
-              <h3 style={{ fontSize: "clamp(18px,3vw,26px)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.5px", marginBottom: 8 }}>Model Home Coming Soon</h3>
-              <p style={{ fontSize: 15, color: "#999", fontWeight: 300, maxWidth: 500 }}>A custom home is currently being built in Villas San Miguel — valued at approximately $400,000. Come see exactly what's possible on your lot.</p>
+        </div>
+      </section>
+
+      {/* ── LOTS / BENTO ────────────────────────────── */}
+      <section id="lots" style={{ padding: "120px 48px", background: "var(--ink)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+
+          <div className="reveal" style={{ marginBottom: 16 }}>
+            <span className="eyebrow">Available lots</span>
+          </div>
+          <h2
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(34px, 5vw, 64px)",
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--cream)",
+              marginBottom: 16,
+              textWrap: "balance",
+            }}
+          >
+            Build your{" "}
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>dream home</em>
+          </h2>
+          <p
+            className="reveal reveal-delay-2"
+            style={{
+              fontSize: 17,
+              color: "var(--text-muted)",
+              maxWidth: 560,
+              lineHeight: 1.65,
+              fontWeight: 300,
+              marginBottom: 56,
+              textWrap: "pretty",
+            }}
+          >
+            Spacious half-acre lots in a brand-new gated Weslaco development. Only 8 remain.
+          </p>
+
+          {/* BENTO GRID */}
+          <div id="details" className="bento-grid">
+
+            {/* LOT DETAILS card */}
+            <div className="bento-details reveal">
+              <div className="bezel-outer" style={{ height: "100%" }}>
+                <div className="bezel-inner" style={{ padding: "40px 36px", height: "100%", boxSizing: "border-box" }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 28 }}>Lot details</p>
+                  <div>
+                    {lotDetails.map(({ label, value }, i) => (
+                      <div
+                        key={label}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                          padding: "13px 0",
+                          borderBottom: i < lotDetails.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                          gap: 16,
+                        }}
+                      >
+                        <span style={{ fontSize: 12, color: "var(--text-muted)", flexShrink: 0 }}>{label}</span>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--cream)", textAlign: "right" }}>{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 36 }}>
+                    <a href={`tel:${PHONE}`} className="btn-pill" style={{ width: "100%", justifyContent: "center" }}>
+                      Inquire now
+                      <span className="btn-pill-icon">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <a href={`tel:${PHONE}`} style={{ background: "transparent", color: "#D4AF37", textDecoration: "none", padding: "14px 32px", fontSize: 13, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", border: "1.5px solid rgba(212,175,55,0.5)", whiteSpace: "nowrap" }}>Schedule a Visit</a>
+
+            {/* WHY card */}
+            <div className="bento-why reveal reveal-delay-1">
+              <div className="bezel-gold-outer" style={{ height: "100%" }}>
+                <div className="bezel-gold-inner" style={{ padding: "40px 32px", height: "100%", boxSizing: "border-box" }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 28 }}>Why Villas San Miguel</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                    {highlights.map((h, i) => (
+                      <div
+                        key={h}
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 12,
+                          padding: "11px 0",
+                          borderBottom: i < highlights.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                        }}
+                      >
+                        <div style={{ width: 5, height: 5, background: "var(--gold)", flexShrink: 0, marginTop: 7, borderRadius: "50%" }} />
+                        <span style={{ fontSize: 13, color: "var(--text-light)", lineHeight: 1.6 }}>{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MODEL HOME callout — full width */}
+            <div className="bento-model reveal reveal-delay-2">
+              <div className="bezel-outer">
+                <div
+                  className="bezel-inner"
+                  style={{
+                    padding: "40px 44px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 28,
+                    background: "linear-gradient(110deg, var(--ink-mid) 0%, var(--ink-card) 100%)",
+                  }}
+                >
+                  <div>
+                    <span className="eyebrow" style={{ marginBottom: 12 }}>See the potential</span>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-serif)",
+                        fontSize: "clamp(20px, 3vw, 30px)",
+                        fontWeight: 700,
+                        letterSpacing: "-0.02em",
+                        color: "var(--cream)",
+                        marginBottom: 10,
+                      }}
+                    >
+                      Model home coming soon
+                    </h3>
+                    <p style={{ fontSize: 15, color: "var(--text-muted)", fontWeight: 300, maxWidth: 520, lineHeight: 1.65, textWrap: "pretty" }}>
+                      A custom home is currently being built inside Villas San Miguel — valued at approximately $400,000. Come see exactly what&apos;s possible on your lot.
+                    </p>
+                  </div>
+                  <a href={`tel:${PHONE}`} className="btn-ghost" style={{ whiteSpace: "nowrap" }}>
+                    Schedule a visit
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>{/* /bento-grid */}
+        </div>
+      </section>
+
+      {/* ── LOCATION ────────────────────────────────── */}
+      <section id="location" style={{ padding: "120px 48px", background: "var(--espresso)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+
+          <div className="reveal" style={{ marginBottom: 16 }}>
+            <span className="eyebrow">Location</span>
+          </div>
+          <h2
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(34px, 5vw, 64px)",
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--cream)",
+              marginBottom: 16,
+              textWrap: "balance",
+            }}
+          >
+            Right in the{" "}
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>heart of the Valley</em>
+          </h2>
+          <p
+            className="reveal reveal-delay-2"
+            style={{
+              fontSize: 17,
+              color: "var(--text-muted)",
+              maxWidth: 480,
+              lineHeight: 1.65,
+              fontWeight: 300,
+              marginBottom: 56,
+              textWrap: "pretty",
+            }}
+          >
+            Weslaco, TX — close to schools, shopping, and major highways throughout the Rio Grande Valley.
+          </p>
+
+          <div className="location-grid">
+            <div className="reveal">
+              {locationRows.map(([l, v], i) => (
+                <div
+                  key={l}
+                  style={{
+                    display: "flex",
+                    gap: 20,
+                    padding: "15px 0",
+                    borderBottom: i < locationRows.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                  }}
+                >
+                  <span style={{ fontWeight: 700, color: "var(--gold)", minWidth: 72, fontSize: 12, flexShrink: 0, paddingTop: 1 }}>{l}</span>
+                  <span style={{ fontSize: 14, color: "var(--text-light)", lineHeight: 1.55 }}>{v}</span>
+                </div>
+              ))}
+              <div style={{ marginTop: 36 }}>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=803+Uriel+Dr+Weslaco+TX+78599"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-pill"
+                >
+                  Get directions
+                  <span className="btn-pill-icon">↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="reveal reveal-delay-1">
+              <div className="bezel-outer">
+                <div className="bezel-inner" style={{ overflow: "hidden" }}>
+                  <iframe
+                    src="https://maps.google.com/maps?q=803+Uriel+Dr+Weslaco+TX+78599&output=embed&z=15"
+                    width="100%"
+                    height="380"
+                    style={{ border: "none", display: "block", filter: "grayscale(40%) invert(88%) hue-rotate(180deg)" }}
+                    allowFullScreen
+                    loading="lazy"
+                    title="Villas San Miguel location"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* LOCATION */}
-      <section id="location" className="section-pad" style={{ padding: "100px 48px", background: "#0a0a0a" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 16 }}>Location</p>
-          <h2 style={{ fontSize: "clamp(28px,4vw,52px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-1.5px", textTransform: "uppercase", marginBottom: 16 }}>Right in the <span style={{ color: "#D4AF37" }}>Heart of the Valley</span></h2>
-          <p style={{ fontSize: 17, color: "#999", maxWidth: 520, marginBottom: 48, fontWeight: 300 }}>Weslaco, TX — close to schools, shopping, and major highways throughout the Rio Grande Valley.</p>
-          <div className="two-col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "start" }}>
-            <div>
-              {[["Address","803 Uriel Dr, Weslaco, TX 78599"],["Area","Gated Development, Weslaco"],["Water","North Alamo WSC"],["Electric","Magic Valley Electric"],["Nearby","Schools, Shopping, Expressway 83"],["Agent",`${AGENT} · ${PHONE_DISPLAY}`]].map(([l, v]) => (
-                <div key={l} style={{ display: "flex", gap: 16, padding: "14px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                  <span style={{ fontWeight: 700, color: "#D4AF37", minWidth: 80, fontSize: 13 }}>{l}</span>
-                  <span style={{ fontSize: 14, color: "#cccccc" }}>{v}</span>
+      {/* ── CONTACT ─────────────────────────────────── */}
+      <section id="contact" style={{ padding: "120px 48px", background: "var(--ink)" }}>
+        <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+
+          <div className="reveal" style={{ marginBottom: 16 }}>
+            <span className="eyebrow">Contact</span>
+          </div>
+          <h2
+            className="reveal reveal-delay-1"
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(34px, 5vw, 64px)",
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--cream)",
+              marginBottom: 16,
+              textWrap: "balance",
+            }}
+          >
+            Only{" "}
+            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>8 lots left</em>
+          </h2>
+          <p
+            className="reveal reveal-delay-2"
+            style={{
+              fontSize: 17,
+              color: "var(--text-muted)",
+              lineHeight: 1.65,
+              fontWeight: 300,
+              marginBottom: 48,
+              textWrap: "pretty",
+            }}
+          >
+            These won&apos;t last long. Call or text {AGENT} today to ask questions, schedule a visit, or reserve your lot.
+          </p>
+
+          <div className="reveal reveal-delay-3">
+            <div className="bezel-gold-outer">
+              <div className="bezel-gold-inner" style={{ padding: "48px 40px" }}>
+                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 14 }}>Your agent</p>
+                <p
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(22px, 4vw, 34px)",
+                    fontWeight: 700,
+                    letterSpacing: "-0.02em",
+                    color: "var(--cream)",
+                    marginBottom: 6,
+                  }}
+                >
+                  {AGENT}
+                </p>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 4 }}>Fox Real Estate Pros · Greater McAllen AOR</p>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 36 }}>MLS# 486729</p>
+                <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                  <a href={`tel:${PHONE}`} className="btn-pill">
+                    Call now
+                    <span className="btn-pill-icon">↗</span>
+                  </a>
+                  <a href={`sms:${PHONE}`} className="btn-ghost">
+                    Send a text
+                  </a>
                 </div>
-              ))}
-              <a href="https://www.google.com/maps/dir/?api=1&destination=803+Uriel+Dr+Weslaco+TX+78599" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: 32, background: "#D4AF37", color: "#0a0a0a", textDecoration: "none", padding: "14px 32px", fontSize: 13, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Get Directions</a>
-            </div>
-            <div>
-              <iframe src="https://maps.google.com/maps?q=803+Uriel+Dr+Weslaco+TX+78599&output=embed&z=15" width="100%" height="360" style={{ border: "none", display: "block", filter: "grayscale(30%) invert(90%) hue-rotate(180deg)" }} allowFullScreen loading="lazy" />
+              </div>
             </div>
           </div>
+
+          <p className="reveal reveal-delay-4" style={{ marginTop: 28, fontSize: 13, color: "rgba(154,145,136,0.6)" }}>
+            {PHONE_DISPLAY} · Weslaco, TX 78599
+          </p>
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="section-pad" style={{ padding: "100px 48px", background: "#141414" }}>
-        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 16 }}>Contact</p>
-          <h2 style={{ fontSize: "clamp(28px,4vw,52px)", fontWeight: 900, lineHeight: 1, letterSpacing: "-1.5px", textTransform: "uppercase", marginBottom: 16 }}>Only <span style={{ color: "#D4AF37" }}>8 Lots Left</span></h2>
-          <p style={{ fontSize: 17, color: "#999", marginBottom: 48, fontWeight: 300 }}>These won't last long. Call or text Yoli San Miguel today to ask questions, schedule a visit, or reserve your lot.</p>
-          <div style={{ background: "#1a1a1a", border: "1px solid rgba(212,175,55,0.2)", padding: "48px 40px", marginBottom: 32 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#D4AF37", marginBottom: 12 }}>Your Agent</div>
-            <div style={{ fontSize: 28, fontWeight: 900, letterSpacing: "-0.5px", marginBottom: 4 }}>{AGENT}</div>
-            <div style={{ fontSize: 14, color: "#999", marginBottom: 8 }}>Fox Real Estate Pros · Greater McAllen AOR</div>
-            <div style={{ fontSize: 14, color: "#999", marginBottom: 32 }}>MLS# 486729</div>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href={`tel:${PHONE}`} style={{ background: "#D4AF37", color: "#0a0a0a", textDecoration: "none", padding: "16px 40px", fontSize: 14, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Call Now</a>
-              <a href={`sms:${PHONE}`} style={{ background: "transparent", color: "white", textDecoration: "none", padding: "16px 40px", fontSize: 14, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", border: "1.5px solid rgba(255,255,255,0.25)" }}>Send a Text</a>
-            </div>
-          </div>
-          <p style={{ fontSize: 13, color: "#666" }}>{PHONE_DISPLAY} · Weslaco, TX 78599</p>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{ background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "36px 48px" }}>
-        <div className="footer-inner" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+      {/* ── FOOTER ──────────────────────────────────── */}
+      <footer style={{ background: "var(--espresso)", borderTop: "1px solid rgba(255,255,255,0.05)", padding: "32px 48px" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div>
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "#D4AF37" }}>Villas San Miguel</p>
-            <p style={{ fontSize: 12, color: "#666", marginTop: 4 }}>Weslaco, TX · Gated Community · Rio Grande Valley</p>
+            <p style={{ fontFamily: "var(--font-serif)", fontSize: 14, fontWeight: 700, color: "var(--gold)", letterSpacing: "0.04em" }}>Villas San Miguel</p>
+            <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 3 }}>Weslaco, TX · Gated community · Rio Grande Valley</p>
           </div>
-          <p style={{ fontSize: 12, color: "#666" }}>© 2026 Villas San Miguel · All rights reserved</p>
-          <a href={`tel:${PHONE}`} style={{ fontSize: 13, color: "#D4AF37", textDecoration: "none", fontWeight: 600 }}>{PHONE_DISPLAY}</a>
+          <p style={{ fontSize: 11, color: "rgba(154,145,136,0.5)" }}>© 2026 Villas San Miguel · All rights reserved</p>
+          <a href={`tel:${PHONE}`} style={{ fontSize: 13, color: "var(--gold)", textDecoration: "none", fontWeight: 600 }}>{PHONE_DISPLAY}</a>
         </div>
       </footer>
     </>
